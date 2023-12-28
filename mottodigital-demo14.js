@@ -98,24 +98,7 @@ function displayResponse(response) {
   }, 200);
 }
 
-function checkAndDisplayLocationContainer() {
-  const assistantMessages = document.querySelectorAll(".message.assistant");
-  assistantMessages.forEach((messageDiv) => {
-    const paragraphs = messageDiv.querySelectorAll("p");
-    paragraphs.forEach((p) => {
-      if (p.textContent.startsWith("Here are my top 3 recommendations")) {
-        var locationContainer = document.getElementById("location-container");
-        if (locationContainer) {
-          locationContainer.style.display = "block";
-          messageDiv.parentNode.insertAdjacentElement(
-            "afterend",
-            locationContainer
-          );
-        }
-      }
-    });
-  });
-}
+
 
 document.addEventListener("DOMContentLoaded", (event) => {
   // Generate a unique ID for the user
@@ -383,101 +366,5 @@ function addUserMsg(userInput) {
   chatWindow.appendChild(userMsg);
   localStorage.setItem("messages", chatWindow.innerHTML);
 }
-
-function createForm(dataObject) {
-  const form = document.createElement("form");
-  form.classList.add("userdetailsform");
-
-  for (const key in dataObject) {
-    if (dataObject.hasOwnProperty(key)) {
-      const label = document.createElement("label");
-      label.textContent =
-        key.charAt(0).toUpperCase() + key.slice(1).replaceAll("_", " "); // Capitalize the first letter
-      label.classList.add("userdetailsformlabel");
-      label.htmlFor = 'userDetailsFormInput';
-
-      const input = document.createElement("input");
-      input.setAttribute("type", "text");
-      input.setAttribute("name", key);
-      input.setAttribute("value", dataObject[key]);
-      input.setAttribute("required", "true");
-      input.classList.add("userdetailsforminput", "w-input");
-
-
-      form.appendChild(label);
-      form.appendChild(input);
-    }
-  }
-  const submitButton = document.createElement("input");
-  submitButton.setAttribute("type", "submit");
-  submitButton.setAttribute("value", "Submit");
-  submitButton.classList.add("assistant", "message", "button");
-
-  submitButton.addEventListener("click", async function (event) {
-    event.preventDefault(); // Prevent default form submission
-    const isValid = form.checkValidity();
-    if (!isValid) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    // Disable all input fields
-    const inputFields = form.querySelectorAll("input");
-    inputFields.forEach((input) => {
-      input.setAttribute("disabled", "true");
-    });
-
-    // Remove the submit button
-    submitButton.remove();
-
-    const formData = {};
-    inputFields.forEach((input) => {
-      formData[input.name] = input.value;
-    });
-    // Make an asynchronous call to the updateData function
-    await updateData(formData);
-  });
-
-  form.appendChild(submitButton);
-  return form;
-}
-
-function updateData(formData) {
-  return new Promise(async (resolve, reject) => {
-    console.log(formData);
-    const customFields = {
-      hobbies: formData.hobbies,
-      "last-name": formData.last_name,
-      "first-name": formData.first_name,
-      speciality: formData.speciality,
-      "visa-status": formData.visa_status,
-      "current-state": formData.state,
-      "graduation-date": formData.graduation_date,
-    };
-    await window.$memberstackDom.updateMember({
-      customFields,
-    });
-    updateTextContent(customFields);
-    document.querySelector(".userdetailsform").parentElement.parentElement.remove();
-    localStorage.setItem("messages", chatWindow.innerHTML);
-    interact({ type: "done", payload: null });
-
-    resolve("");
-  });
-}
-
-function updateTextContent(customFields) {
-  // Loop through the items in the customFields object
-  for (const key in customFields) {
-    if (customFields.hasOwnProperty(key)) {
-      // Find elements with the specified data-ms-member attribute
-      const elements = document.querySelectorAll(`[data-ms-member="${key}"]`);
-
-      // Update the textContent of each matching element
-      elements.forEach((element) => {
-        element.textContent = customFields[key];
-      });
-    }
-  }
 
 }
