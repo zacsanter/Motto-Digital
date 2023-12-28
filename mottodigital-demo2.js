@@ -70,8 +70,7 @@ function displayResponse(response) {
 
           addAssistantMsg(imageElement);
 
-          
-      });
+        
     }
 
     typingIndicator.classList.add("hidden");
