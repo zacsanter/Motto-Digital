@@ -1,4 +1,3 @@
-// <script data-version="production" src="https://cdn.jsdelivr.net/gh/zacsanter/inhealthjobs@main/inj--script-demo5.js" id="vfassistant"></script>
 
 const typingIndicator = document.getElementById("typing-indicator");
 const uniqueId = generateUniqueId();
@@ -7,7 +6,7 @@ const voiceflowVersionID =
   document.getElementById("vfassistant").getAttribute("data-version") ||
   "production";
 
-const voiceflowAPIKey = "VF.DM.650c4a1a7e1a04000744b6ea.GCmymdNkzCanFlqS"; //INJ
+const voiceflowAPIKey = "VF.DM.650c4a1a7e1a04000744b6ea.GCmymdNkzCanFlqS"; 
 
 const chatWindow = document.getElementById("chat-window");
 const input = document.getElementById("user-input");
@@ -40,8 +39,7 @@ function displayResponse(response) {
 
           messageElement.innerHTML = wrappedMessage;
 
-          // assistantWrapper.appendChild(messageElement);
-          // chatWindow.appendChild(assistantWrapper);
+
 
           addAssistantMsg(messageElement);
         } else if (item.type === "choice") {
@@ -105,9 +103,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   // Set chat-container height to viewport height
   chatContainer.style.height = `${window.innerHeight}px`;
-  // Set the runtime, version and API key for the Voiceflow Dialog API
-
-  //   const chatWindow = document.getElementById("chat-window");
 
   // Only call interact('#launch#') if there are no saved messages
   if (!savedMessages) {
@@ -159,23 +154,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Fade out previous content
         responseContainer.style.opacity = "0";
 
-        // // Add user message to the chat window
-        // chatWindow.appendChild(userTagLine);
-
-        // const userWrapper = document.createElement("div");
-        // userWrapper.classList.add("userwrapper");
-
-        // const userMessageElement = document.createElement("div");
-        // userMessageElement.classList.add("message", "user");
-        // userMessageElement.textContent = userInput;
+       
 
         addUserMsg(userInput);
-        // userWrapper.appendChild(userMessageElement);
-
-        // chatWindow.appendChild(userWrapper);
-
-        // Save messages to local storage
-        // localStorage.setItem("messages", chatWindow.innerHTML);
+        
+     
 
         // Scroll to the bottom of the chat window
         window.requestAnimationFrame(() => {
@@ -193,7 +176,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
   });
 
-  // Send user input to Voiceflow Dialog API
+
 });
 // Function to generate a unique ID for the user
 function generateUniqueId() {
@@ -215,17 +198,13 @@ async function interact(action) {
   if (typingIndicator) {
     typingIndicator.style.display = "flex";
   }
-  // or typingIndicator.classList.remove('hidden');
+
 
   let body = {
     config: { tts: true, stripSSML: true },
     action: action,
   };
-  // let body = {
-  //   config: { tts: true, stripSSML: true },
-  //   action: { type: "text", payload: input },
-  // };
-
+ 
   // If input is #launch# > Use a launch action to the request body
   if (action == "#launch#") {
     body = {
@@ -253,29 +232,7 @@ async function interact(action) {
 }
 
 function handleButtonClick(event) {
-  // Log the button name as a user message
-  // const userMessageElement = document.createElement("div");
 
-  // const prevMessage = chatWindow.lastElementChild;
-  // if (!prevMessage || !prevMessage.classList.contains("user")) {
-  //   const userTaglineElement = document.createElement("div");
-  //   userTaglineElement.classList.add("usertagline");
-  //   userTaglineElement.textContent = "You";
-  //   chatWindow.appendChild(userTaglineElement);
-  // }
-
-  // const userWrapper = document.createElement("div");
-  // userWrapper.classList.add("userwrapper");
-
-  // const userImage = document.createElement("div");
-  // userImage.classList.add("userimage");
-  // userWrapper.appendChild(userImage);
-
-  // userMessageElement.classList.add("message", "user");
-  // userMessageElement.textContent = event.target.textContent;
-  // userWrapper.appendChild(userMessageElement);
-
-  // chatWindow.appendChild(userWrapper);
 
   addUserMsg(event.target.textContent);
   let body = { request: { type: event.target.dataset.key } };
@@ -297,7 +254,7 @@ function handleButtonClick(event) {
       // console.error(err)
       displayResponse(null);
     });
-  // Send the button label as input to the API and handle the response
+ 
 }
 
 function updateVariable(variable, value) {
