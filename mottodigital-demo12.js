@@ -18,7 +18,6 @@ const savedMessages = localStorage.getItem("messages");
 const chatContainer = document.getElementById("chat-container");
 const restartButton = document.getElementById("restart-button");
 
-let uppy;
 const assistantTag = "株式会社Mottodigital",
   userTag = "ユーザー";
 
@@ -72,52 +71,7 @@ function displayResponse(response) {
           addAssistantMsg(imageElement);
 
           // chatWindow.appendChild(imageElement);
-        } else if (item.type === "upload_resume") {
-          const uppyElement = document.createElement("div");
-          uppyElement.id = "uppyElement";
-          uppyElement.style.flex = 1;
-          // uppyElement.classList.add("assistantwrapper");
-
-          // chatWindow.appendChild(assistantTagLine);
-          // chatWindow.appendChild(uppyElement);
-          addAssistantMsg(uppyElement);
-
-          uppy = new Uppy.Uppy({
-            autoProceed: true,
-            allowMultipleUploadBatches: false,
-            debug: false,
-            restrictions: {
-              allowedFileTypes: [".pdf"],
-            },
-          });
-          uppy
-            .use(Uppy.Dashboard, {
-              target: "#uppyElement",
-              inline: true,
-              proudlyDisplayPoweredByUppy: false,
-            })
-            .use(Uppy.XHRUpload, {
-              endpoint: "https://inj-cv-parser.adabeer445.repl.co/extract_text",
-              fieldName: "file",
-            });
-          uppy.on("upload-success", async (file, response) => {
-            // Parse the response body as JSON
-            console.log(file);
-            console.log(response);
-            await updateVariable(
-              "resume",
-              response.body.text.replaceAll("\n", " ")
-            );
-            uppy.clearUploadedFiles();
-            uppy.close();
-            uppyElement.parentElement.parentElement.remove();
-            interact({ type: "done", payload: null });
-            // console.log(uppy);
-          });
-        } else if (item.type === "user_form") {
-          addAssistantMsg(createForm(item.payload));
-          // addAssistantMsg(element);
-        }
+        } 
 
         // After processing the last item, check for the specific message
         if (index === array.length - 1) {
