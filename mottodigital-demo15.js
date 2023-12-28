@@ -367,4 +367,3 @@ function addUserMsg(userInput) {
   localStorage.setItem("messages", chatWindow.innerHTML);
 }
 
-}
