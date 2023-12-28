@@ -73,10 +73,7 @@ function displayResponse(response) {
           // chatWindow.appendChild(imageElement);
         } 
 
-        // After processing the last item, check for the specific message
-        if (index === array.length - 1) {
-          checkAndDisplayLocationContainer();
-        }
+       
       });
     }
 
