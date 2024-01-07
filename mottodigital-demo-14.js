@@ -87,7 +87,7 @@ function displayResponse(response) {
       });
     }
 
-    typingIndicator.classList.add("hidden");
+    typingIndicator.add("hidden");
 
     window.requestAnimationFrame(() => {
       setTimeout(() => {
