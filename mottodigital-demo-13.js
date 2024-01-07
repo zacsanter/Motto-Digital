@@ -20,6 +20,18 @@ const restartButton = document.getElementById("restart-button");
 const assistantTag = "株式会社Mottodigital",
   userTag = "ユーザー";
 
+(function() {
+    // Wait for a brief moment to ensure all elements are loaded
+    setTimeout(function() {
+        const restartButton = document.getElementById('restart-button');
+        if (restartButton) {
+            restartButton.click();
+        } else {
+            console.log('Restart button not found');
+        }
+    }, 50); // The delay in milliseconds (500ms in this case)
+})();
+
 function displayResponse(response) {
   setTimeout(() => {
     if (response) {
