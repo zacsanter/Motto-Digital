@@ -36,7 +36,7 @@ function displayResponse(response) {
         if (response) {
             response.forEach((item, index) => {
                 // Delay each message by 500ms more than the previous one
-                const delay = index * 500;
+                const delay = index * 750;
 
                 setTimeout(() => {
                     if (item.type === "speak" || item.type === "text") {
