@@ -1,4 +1,3 @@
-
 const typingIndicator = document.getElementById("typing-indicator");
 const uniqueId = generateUniqueId();
 const voiceflowRuntime = "general-runtime.voiceflow.com";
@@ -33,82 +32,79 @@ const assistantTag = "株式会社Mottodigital",
 })();
 
 function displayResponse(response) {
-  setTimeout(() => {
-    if (response) {
-      response.forEach((item, index, array) => {
+    setTimeout(() => {
+        if (response) {
+            response.forEach((item, index) => {
+                // Delay each message by 500ms more than the previous one
+                const delay = index * 500;
 
-        const delay = index * 1000; // 1 second delay for each item
+                setTimeout(() => {
+                    if (item.type === "speak" || item.type === "text") {
+                        console.info("Speak/Text Step");
 
-        setTimeout(() => {
-        if (item.type === "speak" || item.type === "text") {
-          console.info("Speak/Text Step");
+                        const messageElement = document.createElement("div");
+                        messageElement.classList.add("message", "assistant");
 
-          const messageElement = document.createElement("div");
-          messageElement.classList.add("message", "assistant");
+                        const paragraphs = item.payload.message.split("\n\n");
+                        const wrappedMessage = paragraphs
+                            .map((para) => `<p>${para}</p>`)
+                            .join("");
 
-          const paragraphs = item.payload.message.split("\n\n");
-          const wrappedMessage = paragraphs
-            .map((para) => `<p>${para}</p>`)
-            .join("");
+                        messageElement.innerHTML = wrappedMessage;
+                        addAssistantMsg(messageElement);
 
-          messageElement.innerHTML = wrappedMessage;
+                    } else if (item.type === "choice") {
+                        const buttonContainer = document.createElement("div");
+                        buttonContainer.classList.add("buttoncontainer");
 
+                        item.payload.buttons.forEach((button) => {
+                            const buttonElement = document.createElement("button");
+                            buttonElement.classList.add("assistant", "message", "button");
+                            buttonElement.textContent = button.name;
+                            buttonElement.dataset.key = button.request.type;
+                            buttonElement.addEventListener("click", (event) => {
+                                handleButtonClick(event);
+                            });
+                            buttonContainer.appendChild(buttonElement);
+                        });
+                        chatWindow.appendChild(buttonContainer);
+                        localStorage.setItem("messages", chatWindow.innerHTML);
 
+                    } else if (item.type === "visual") {
+                        console.info("Image Step");
 
-          addAssistantMsg(messageElement);
-        } else if (item.type === "choice") {
-          const buttonContainer = document.createElement("div");
-          buttonContainer.classList.add("buttoncontainer");
+                        const imageElement = document.createElement("img");
+                        imageElement.src = item.payload.image;
+                        imageElement.alt = "Assistant Image";
+                        imageElement.style.width = "100%";
 
-          item.payload.buttons.forEach((button) => {
-            const buttonElement = document.createElement("button");
-            buttonElement.classList.add("assistant", "message", "button");
-            buttonElement.textContent = button.name;
-            buttonElement.dataset.key = button.request.type;
-            buttonElement.addEventListener("click", (event) => {
-              handleButtonClick(event);
+                        addAssistantMsg(imageElement);
+                    }
+
+                    // Update chat window scroll after each message
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                }, delay); // This delay ensures that each message is added with a gap of 500ms
             });
-            buttonContainer.appendChild(buttonElement);
-          });
-          chatWindow.appendChild(buttonContainer);
-          localStorage.setItem("messages", chatWindow.innerHTML);
-        } else if (item.type === "visual") {
-          console.info("Image Step");
+        }
 
-          const imageElement = document.createElement("img");
-          imageElement.src = item.payload.image;
-          imageElement.alt = "Assistant Image";
-          imageElement.style.width = "100%";
+        typingIndicator.classList.add("hidden");
 
-          addAssistantMsg(imageElement);
+        // Ensuring the response container and input field are handled after all messages
+        setTimeout(() => {
+            responseContainer.style.opacity = "1";
 
-          // chatWindow.appendChild(imageElement);
-        } 
+            input.disabled = false;
+            input.value = "";
+            input.classList.remove("fade-out");
+            input.blur();
+            input.focus();
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }, response.length * 500);
 
-       
-      });
-    })
-
-    typingIndicator.classList.add("hidden");
-
-    window.requestAnimationFrame(() => {
-      setTimeout(() => {
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-      }, 100);
-    });
-
-    responseContainer.style.opacity = "1";
-  }, 250);
-
-  setTimeout(() => {
-    input.disabled = false;
-    input.value = "";
-    input.classList.remove("fade-out");
-    input.blur();
-    input.focus();
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-  }, 200);
+    }, 250); // Initial delay before starting to append messages
 }
+
 
 
 
@@ -337,4 +333,3 @@ function addUserMsg(userInput) {
   chatWindow.appendChild(userMsg);
   localStorage.setItem("messages", chatWindow.innerHTML);
 }
-
