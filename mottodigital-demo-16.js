@@ -108,7 +108,7 @@ function displayResponse(response) {
     input.focus();
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }, 200);
-}}
+}})
 
 
 
