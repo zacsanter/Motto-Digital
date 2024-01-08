@@ -38,6 +38,8 @@ function displayResponse(response) {
       response.forEach((item, index, array) => {
 
         const delay = index * 1000; // 1 second delay for each item
+
+        setTimeout(() => {
         if (item.type === "speak" || item.type === "text") {
           console.info("Speak/Text Step");
 
@@ -87,7 +89,7 @@ function displayResponse(response) {
       });
     }
 
-    typingIndicator.add("hidden");
+    typingIndicator.classList.add("hidden");
 
     window.requestAnimationFrame(() => {
       setTimeout(() => {
@@ -106,7 +108,7 @@ function displayResponse(response) {
     input.focus();
     chatWindow.scrollTop = chatWindow.scrollHeight;
   }, 200);
-}
+}}
 
 
 
