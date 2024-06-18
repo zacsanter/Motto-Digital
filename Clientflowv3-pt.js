@@ -5,7 +5,7 @@ const voiceflowVersionID =
   document.getElementById("vfassistant").getAttribute("data-version") ||
   "production";
 
-const voiceflowAPIKey = "VF.DM.667189af36afe89ca1bc23e0.Vc1X1kxf5tfL3uaL"; 
+const voiceflowAPIKey = "VF.DM.65d1ddbe652117992d05c042.eB1w6Q91QISzgW3x"; 
 
 const chatWindow = document.getElementById("chat-window");
 const input = document.getElementById("user-input");
