@@ -1,4 +1,4 @@
-const typingIndicator = document.getElementById("typing-indicator");
+onst typingIndicator = document.getElementById("typing-indicator");
 const uniqueId = generateUniqueId();
 const voiceflowRuntime = "general-runtime.voiceflow.com";
 const voiceflowVersionID =
